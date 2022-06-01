@@ -1,0 +1,33 @@
+-- câu 1 bài 6
+DROP PROCEDURE IF EXISTS lay_account_tu_department;
+DELIMITER $$
+CREATE PROCEDURE lay_account_tu_department(IN in_phong_ban NVARCHAR(50))
+BEGIN
+SELECT A.AccountID, A.FullName, D.DepartmentName FROM `account` A
+INNER JOIN department D ON D.DepartmentID = A.DepartmentID
+WHERE D.DepartmentName = in_phong_ban;
+END$$
+DELIMITER ;
+
+-- câu 2 bài 6
+DROP PROCEDURE IF EXISTS dem_so_luong_account;
+DELIMITER $$
+CREATE PROCEDURE dem_so_luong_account(IN in_ten_group NVARCHAR(50))
+BEGIN
+SELECT g.GroupName, count(ga.AccountID) AS SL FROM groupaccount ga
+INNER JOIN `group` g ON ga.GroupID = g.GroupID
+WHERE g.GroupName = in_ten_group;
+END$$
+DELIMITER ;
+
+-- câu 3 bài 6
+DROP PROCEDURE IF EXISTS dem_so_luong_cau_hoi;
+DELIMITER $$
+CREATE PROCEDURE dem_so_luong_cau_hoi()
+BEGIN
+SELECT tq.TypeName, count(q.TypeID) FROM question q
+INNER JOIN typequestion tq ON q.TypeID = tq.TypeID
+WHERE month(q.CreateDate) = month(now()) AND year(q.CreateDate) = year(now())
+GROUP BY q.TypeID;
+END$$
+DELIMITER ;
